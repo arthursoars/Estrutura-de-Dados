@@ -1,3 +1,4 @@
+# Jose Artur Soares Afreu - 20230146550
 import locale
 import time
 
