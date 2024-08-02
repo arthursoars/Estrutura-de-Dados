@@ -1,0 +1,79 @@
+class ListaSequencial:
+    def __init__(self, capacidade):
+        self.capacidade = capacidade
+        self.dados = [0] * capacidade
+        self.tamanho = 0
+
+    def criar_lista_vazia(self):
+        """Inicializa a lista como vazia."""
+        self.dados = [0] * self.capacidade
+        self.tamanho = 0
+
+    def verificar_lista_vazia(self):
+        """Verifica se a lista está vazia."""
+        return self.tamanho == 0
+
+    def verificar_lista_cheia(self):
+        """Verifica se a lista está cheia."""
+        return self.tamanho == self.capacidade
+
+    def obter_tamanho(self):
+        """Retorna o número atual de elementos na lista."""
+        return self.tamanho
+
+    def obter_valor(self, posicao):
+        """Retorna o valor na posição especificada (1-based index)."""
+        if posicao < 1 or posicao > self.tamanho:
+            return "Posição fora dos limites."
+        return self.dados[posicao - 1]
+
+    def modificar_valor(self, posicao, valor):
+        """Modifica o valor na posição especificada (1-based index)."""
+        if posicao < 1 or posicao > self.tamanho:
+            return "Posição fora dos limites."
+        valor_anterior = self.dados[posicao - 1]
+        self.dados[posicao - 1] = valor
+        return f"Valor alterado de {valor_anterior} para {valor}"
+
+    def inserir_elemento(self, posicao, valor):
+        """Insere um valor na posição especificada (1-based index)."""
+        if self.verificar_lista_cheia() or posicao < 1 or posicao > self.tamanho + 1:
+            return "Não é possível adicionar na posição indicada."
+        
+        # Desloca elementos para a direita
+        for i in range(self.tamanho, posicao - 1, -1):
+            self.dados[i] = self.dados[i - 1]
+        
+        self.dados[posicao - 1] = valor
+        self.tamanho += 1
+        return f"Valor {valor} adicionado na posição {posicao}"
+
+    def remover_elemento(self, posicao):
+        """Remove o elemento na posição especificada (1-based index)."""
+        if self.verificar_lista_vazia() or posicao < 1 or posicao > self.tamanho:
+            return "Não é possível remover da posição indicada."
+        
+        valor_removido = self.dados[posicao - 1]
+        
+        # Desloca elementos para a esquerda
+        for i in range(posicao - 1, self.tamanho - 1):
+            self.dados[i] = self.dados[i + 1]
+        
+        self.dados[self.tamanho - 1] = 0
+        self.tamanho -= 1
+        return valor_removido
+
+# Exemplo de uso
+lista = ListaSequencial(capacidade=10)
+lista.dados[:5] = [2, 3, 1, 5, 4]
+lista.tamanho = 5
+
+print(lista.dados)  # Estado inicial da lista
+print(lista.verificar_lista_vazia())  # Verifica se a lista está vazia
+print(lista.verificar_lista_cheia())  # Verifica se a lista está cheia
+print(lista.obter_tamanho())  # Tamanho atual da lista
+print(lista.obter_valor(4))  # Obtém o valor na posição 4
+print(lista.modificar_valor(3, 5))  # Modifica o valor na posição 3 para 5
+print(lista.inserir_elemento(3, 1))  # Insere o valor 1 na posição 3
+print(lista.remover_elemento(6))  # Remove o elemento na posição 6
+print(lista.dados[:lista.obter_tamanho()])  # Lista atualizada
